@@ -1,3 +1,5 @@
+using Restaurant.RestAPI.Domain;
+
 namespace Restaurant.RestAPI;
 
 public sealed class Startup
@@ -5,6 +7,8 @@ public sealed class Startup
     public static void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddSingleton<IReservationRepository>(new NullRepository());
     }
 
     public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -20,5 +24,13 @@ public sealed class Startup
         {
             endpoints.MapControllers();
         });
+    }
+
+    private class NullRepository : IReservationRepository
+    {
+        public Task Create(Reservation reservation)
+        {
+            return Task.CompletedTask;
+        }
     }
 }
