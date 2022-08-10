@@ -2,6 +2,11 @@ namespace Restaurant.RestAPI;
 
 public sealed class Startup
 {
+    public static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+    }
+
     public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
@@ -13,11 +18,7 @@ public sealed class Startup
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapGet("/", async context =>
-            {
-                await context.Response.WriteAsync("Hello World!")
-                    .ConfigureAwait(false);
-            });
+            endpoints.MapControllers();
         });
     }
 }
